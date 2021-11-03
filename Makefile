@@ -1,4 +1,4 @@
-BINARY := protoc-gen-twirp_dart
+BINARY := protoc-gen-swiftwirp
 
 TIMESTAMP := $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 COMMIT := $(shell git rev-parse --short HEAD)
@@ -9,10 +9,7 @@ LDFLAGS := -ldflags "-X main.Timestamp=${TIMESTAMP} -X main.Commit=${COMMIT} -X 
 all: clean test install
 
 install:
-	go install ${LDFLAGS} github.com/apptreesoftware/protoc-gen-twirp_dart
-
-test:
-	go test -v ./...
+	go get github.com/CrazyHulk/protoc-gen-swiftwirp
 
 lint:
 	go list ./... | grep -v /vendor/ | xargs -L1 golint -set_exit_status

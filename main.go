@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"twswift/generator"
+	"github.com/CrazyHulk/protoc-gen-swiftwirp/generator"
 
 	"github.com/gogo/protobuf/proto"
 
@@ -15,6 +15,11 @@ import (
 )
 
 func main() {
+	//bs, err := ioutil.ReadFile("./activty.bs")
+	//if err != nil {
+	//	return
+	//}
+	//req := readRequest(bytes.NewReader(bs))
 	req := readRequest(os.Stdin)
 	writeResponse(os.Stdout, generate(req))
 }
@@ -24,6 +29,7 @@ func readRequest(r io.Reader) *plugin_go.CodeGeneratorRequest {
 	if err != nil {
 		panic(err)
 	}
+	//ioutil.WriteFile("activty.bs", data, 0644)
 
 	req := new(plugin_go.CodeGeneratorRequest)
 	if err = proto.Unmarshal(data, req); err != nil {
@@ -50,6 +56,10 @@ func generate(in *plugin_go.CodeGeneratorRequest) *plugin_go.CodeGeneratorRespon
 		if *f.Name == "google/protobuf/timestamp.proto" {
 			continue
 		}
+		// generate service only
+		if f.Service == nil {
+			continue
+		}
 		cf, err := generator.CreateClientAPI(f, gen)
 		if err != nil {
 			resp.Error = proto.String(err.Error())
@@ -73,6 +83,7 @@ func writeResponse(w io.Writer, resp *plugin_go.CodeGeneratorResponse) {
 	if err != nil {
 
 	}
+	//ioutil.WriteFile("activty.test.swift", data, 0644)
 }
 
 type Params map[string]string

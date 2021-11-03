@@ -1,6 +1,0 @@
-name: darttwirp
-version: 1.19.0
-environment:
-  sdk: ">=1.24.3 <3.0.0"
-dependencies:
-  twirp_dart_core: any
